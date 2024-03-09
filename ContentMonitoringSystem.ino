@@ -1,43 +1,94 @@
-#define NUM_SENSORS 4  // Number of sensors
+#define trigPin1 2
+#define echoPin1 3
+#define trigPin2 4
+#define echoPin2 5
+#define trigPin3 6
+#define echoPin3 7
+#define trigPin4 8
+#define echoPin4 9
+#define ledSensor1 10
+#define ledSensor2 11
+#define ledSensor3 12
+#define ledSensor4 13
 
-const int trigPins[NUM_SENSORS] = {2, 4, 6, 8};  // Array of trigger pins
-const int echoPins[NUM_SENSORS] = {3, 5, 7, 9};  // Array of echo pins
-const int ledPins[NUM_SENSORS] = {10, 11, 12, 13};  // Array of LED pins
+long duration, distance, paperSensor, metalSensor, plasticSensor, glassSensor;
 
-int distances[NUM_SENSORS];  // Array to store sensor readings
+void setup()
+{
+  Serial.begin (9600);
+  pinMode(trigPin1, OUTPUT);
+  pinMode(echoPin1, INPUT);
+  pinMode(trigPin2, OUTPUT);
+  pinMode(echoPin2, INPUT);
+  pinMode(trigPin3, OUTPUT);
+  pinMode(echoPin3, INPUT);
+  pinMode(trigPin4, OUTPUT);
+  pinMode(echoPin4, INPUT);
+  pinMode(ledSensor1, INPUT);
+  pinMode(ledSensor2, INPUT);
+  pinMode(ledSensor3, INPUT);
+  pinMode(ledSensor4, INPUT);
 
-void setup() {
-  Serial.begin(9600);
-  for (int i = 0; i < NUM_SENSORS; i++) {
-    pinMode(trigPins[i], OUTPUT);
-    pinMode(echoPins[i], INPUT);
-    pinMode(ledPins[i], OUTPUT);
-  }
 }
 
 void loop() {
-  for (int i = 0; i < NUM_SENSORS; i++) {
-    distances[i] = readSonarSensor(trigPins[i], echoPins[i]);
-    digitalWrite(ledPins[i], distances[i] <= 18 ? HIGH : LOW);  // LED control within readSonarSensor
+  SonarSensor(trigPin1, echoPin1);
+  metalSensor = distance;
+  SonarSensor(trigPin2, echoPin2);
+  plasticSensor = distance;
+  SonarSensor(trigPin3, echoPin3);
+  glassSensor = distance;
+  SonarSensor(trigPin4, echoPin4);
+  paperSensor = distance;
+
+  Serial.print(metalSensor);
+  Serial.print(" - ");
+  Serial.print(plasticSensor);
+  Serial.print(" - ");
+  Serial.print(glassSensor);
+  Serial.print(" - ");
+  Serial.print(paperSensor);
+
+  if (metalSensor <= 18){
+    digitalWrite(ledSensor1, HIGH);
   }
 
-  Serial.print(distances[0]);
-  Serial.print(" - ");
-  Serial.print(distances[1]);
-  Serial.print(" - ");
-  Serial.print(distances[2]);
-  Serial.print(" - ");
-  Serial.print(distances[3]);
-  Serial.println();
+  else{
+    digitalWrite(ledSensor1, LOW);
+  }
+
+  if (plasticSensor <= 18){
+    digitalWrite(ledSensor2, HIGH);
+  }
+
+  else{
+    digitalWrite(ledSensor2, LOW);
+  }
+  
+  if (glassSensor <= 18){
+    digitalWrite(ledSensor3, HIGH);
+  }
+
+  else{
+    digitalWrite(ledSensor3, LOW);
+  }
+  
+  if (paperSensor <= 18){
+    digitalWrite(ledSensor4, HIGH);
+  }
+
+  else{
+    digitalWrite(ledSensor4, LOW);
+  }
 }
 
-int readSonarSensor(int sensorTrigPin, int sensorEchoPin) {
-  digitalWrite(sensorTrigPin, LOW);
+void SonarSensor(int trigPin,int echoPin)
+{
+  digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
-  digitalWrite(sensorTrigPin, HIGH);
+  digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
-  digitalWrite(sensorTrigPin, LOW);
-  long duration = pulseIn(sensorEchoPin, HIGH);
-  int distance = (duration / 2) / 29.1;
-  return distance;
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2) / 29.1;
 }
