@@ -1,8 +1,7 @@
-#include <Servo.h>
-#include <AccelStepper.h>
+#include <Servo.h> // include servo library to use its related functions
 #define Servo_PWM 6 // A descriptive name for D6 pin of Arduino to provide PWM signal
 #define stepPin 2
-#define dirPin 3
+#define dirPin 5 
 Servo Gate;  // Define an instance of of Servo with the name of "Gate"
   
 const int trigPin = 8;
@@ -10,6 +9,8 @@ const int echoPin = 9;
 // defines variables
 long duration;
 int distance;
+
+
 
 int sensorMetal = 4;
 int sensorGlass = 3;
@@ -31,13 +32,10 @@ void loop() {
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
-
   // Reads the echoPin, returns the sound wave travel time in microseconds
   duration = pulseIn(echoPin, HIGH);
-
   // Calculating the distance
   distance = duration * 0.034 / 2;
-  
   // Prints the distance on the Serial Monitor
   Serial.print("Distance: ");
   Serial.println(distance);
@@ -89,6 +87,75 @@ void loop() {
       Gate.detach();//Stop
       delay(1000);
 
+    
+
+    // if (plasticValue != 1){
+    //   Serial.println("PLASTIC");
+    //   Serial.println("0");// You can display on the serial the signal value
+    //   Gate.write(0); //Turn clockwise at high speed
+    //   delay(500);
+    //   Gate.detach();//Stop. You can use deatch function or use write(x), as x is the middle of 0-180 which is 90, but some lack of precision may change this value
+    //   delay(500);
+    //   Gate.attach(Servo_PWM);//Always use attach function after detach to re-connect your servo with the board
+    //   Serial.println("0");//Turn left high speed
+    //   Gate.write(180.5);
+    //   delay(500);
+    //   Gate.detach();//Stop
+    //   delay(500);
+    //   Gate.attach(Servo_PWM);
+
+    // }
+
+    // if (glassValue != 1){
+    //   Serial.println("PLASTIC");
+    //   Serial.println("0");// You can display on the serial the signal value
+    //   Gate.write(0); //Turn clockwise at high speed
+    //   delay(500);
+    //   Gate.detach();//Stop. You can use deatch function or use write(x), as x is the middle of 0-180 which is 90, but some lack of precision may change this value
+    //   delay(500);
+    //   Gate.attach(Servo_PWM);//Always use attach function after detach to re-connect your servo with the board
+    //   Serial.println("0");//Turn left high speed
+    //   Gate.write(180.5);
+    //   delay(500);
+    //   Gate.detach();//Stop
+    //   delay(500);
+    //   Gate.attach(Servo_PWM);
+
+    // }
+
+    // if (metalValue != 1){
+    //   Serial.println("PLASTIC");
+    //   Serial.println("0");// You can display on the serial the signal value
+    //   Gate.write(0); //Turn clockwise at high speed
+    //   delay(500);
+    //   Gate.detach();//Stop. You can use deatch function or use write(x), as x is the middle of 0-180 which is 90, but some lack of precision may change this value
+    //   delay(500);
+    //   Gate.attach(Servo_PWM);//Always use attach function after detach to re-connect your servo with the board
+    //   Serial.println("0");//Turn left high speed
+    //   Gate.write(180.5);
+    //   delay(500);
+    //   Gate.detach();//Stop
+    //   delay(500);
+    //   Gate.attach(Servo_PWM);
+
+    // }
+
+    // else if (metalValue == 1 && glassValue == 1 && plasticValue == 1) {
+    //   Serial.println("PAPER");
+    //   Serial.println("0");// You can display on the serial the signal value
+    //   Gate.write(0); //Turn clockwise at high speed
+    //   delay(500);
+    //   Gate.detach();//Stop. You can use deatch function or use write(x), as x is the middle of 0-180 which is 90, but some lack of precision may change this value
+    //   delay(500);
+    //   Gate.attach(Servo_PWM);//Always use attach function after detach to re-connect your servo with the board
+    //   Serial.println("0");//Turn left high speed
+    //   Gate.write(180.5);
+    //   delay(500);
+    //   Gate.detach();//Stop
+    //   delay(500);
+    //   Gate.attach(Servo_PWM);
+
+    // }
   }
   delay(100);
 }
