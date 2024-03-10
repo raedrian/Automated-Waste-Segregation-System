@@ -2,7 +2,7 @@
 
 const int trigPins[NUM_SENSORS] = {2, 4, 6, 8};  // Array of trigger pins
 const int echoPins[NUM_SENSORS] = {3, 5, 7, 9};  // Array of echo pins
-const int ledPins[NUM_SENSORS] = {10, 11, 12, 13};  // Array of LED pins
+const int ledPins[NUM_SENSORS] = {22, 23, 24, 25};  // Array of LED pins
 
 int distances[NUM_SENSORS];  // Array to store sensor readings
 
@@ -18,7 +18,8 @@ void setup() {
 void loop() {
   for (int i = 0; i < NUM_SENSORS; i++) {
     distances[i] = readSonarSensor(trigPins[i], echoPins[i]);
-    digitalWrite(ledPins[i], distances[i] <= 18 ? HIGH : LOW);  // LED control within readSonarSensor
+    digitalWrite(ledPins[i], (distances[i] >= 18 || distances[i] == 0) ? LOW : HIGH);  // LED control within readSonarSensor
+    delay(25);
   }
 
   Serial.print(distances[0]);
@@ -37,7 +38,7 @@ int readSonarSensor(int sensorTrigPin, int sensorEchoPin) {
   digitalWrite(sensorTrigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(sensorTrigPin, LOW);
-  long duration = pulseIn(sensorEchoPin, HIGH);
-  int distance = (duration / 2) / 29.1;
+  float duration = pulseIn(sensorEchoPin, HIGH);
+  float distance = (duration / 2) / 29.1;
   return distance;
 }
